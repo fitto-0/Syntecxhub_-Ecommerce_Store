@@ -11,7 +11,7 @@ const initialState = {
 
 const cartReducer = (state, action) => {
   switch (action.type) {
-    case 'ADD_TO_CART':
+    case 'ADD_TO_CART': {
       const existingItem = state.items.find((item) => item.productId === action.payload.productId);
       let updatedItems;
       if (existingItem) {
@@ -19,22 +19,30 @@ const cartReducer = (state, action) => {
           item.productId === action.payload.productId ? { ...item, quantity: item.quantity + action.payload.quantity } : item
         );
       } else {
-        updatedItems = [...state.items, action.payload];
+        // Generate a unique ID for the cart item if not present
+        const newItem = {
+          ...action.payload,
+          _id: action.payload._id || `${action.payload.productId}-${Date.now()}`,
+        };
+        updatedItems = [...state.items, newItem];
       }
       localStorage.setItem('cartItems', JSON.stringify(updatedItems));
       return { ...state, items: updatedItems };
+    }
 
-    case 'REMOVE_FROM_CART':
-      const filteredItems = state.items.filter((item) => item._id !== action.payload);
+    case 'REMOVE_FROM_CART': {
+      const filteredItems = state.items.filter((item) => item._id !== action.payload && item.productId !== action.payload);
       localStorage.setItem('cartItems', JSON.stringify(filteredItems));
       return { ...state, items: filteredItems };
+    }
 
-    case 'UPDATE_QUANTITY':
+    case 'UPDATE_QUANTITY': {
       const updatedCart = state.items.map((item) =>
-        item._id === action.payload.itemId ? { ...item, quantity: action.payload.quantity } : item
+        (item._id === action.payload.itemId || item.productId === action.payload.itemId) ? { ...item, quantity: action.payload.quantity } : item
       );
       localStorage.setItem('cartItems', JSON.stringify(updatedCart));
       return { ...state, items: updatedCart };
+    }
 
     case 'CLEAR_CART':
       localStorage.removeItem('cartItems');

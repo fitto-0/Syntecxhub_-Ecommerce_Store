@@ -3,27 +3,31 @@
 }
 
 .hero {
-  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-  color: white;
-  padding: 100px 0;
-  text-align: center;
+  background: #ffffff;
+  color: #1a1a1a;
+  padding: 80px 40px;
+  text-align: left;
+  border-bottom: 1px solid #e8e8e8;
 }
 
 .hero-content h1 {
-  font-size: 48px;
-  margin-bottom: 16px;
-  animation: fadeInDown 0.8s ease;
+  font-size: 56px;
+  margin-bottom: 12px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  color: #000000;
 }
 
 .hero-content p {
-  font-size: 20px;
+  font-size: 18px;
   margin-bottom: 32px;
-  opacity: 0.9;
-  animation: fadeInUp 0.8s ease;
+  color: #666666;
+  line-height: 1.6;
+  max-width: 600px;
 }
 
 .hero-content .btn {
-  animation: fadeInUp 0.8s ease 0.2s backwards;
+  display: inline-block;
 }
 
 @keyframes fadeInDown {
@@ -49,14 +53,17 @@
 }
 
 .featured-section {
-  padding: 80px 0;
+  padding: 60px 0;
+  background: #ffffff;
 }
 
 .featured-section h2 {
-  font-size: 32px;
+  font-size: 36px;
   text-align: center;
   margin-bottom: 48px;
-  color: #1e293b;
+  color: #000000;
+  font-weight: 700;
+  letter-spacing: -0.5px;
 }
 
 .products-grid {
@@ -67,8 +74,8 @@
 }
 
 .benefits {
-  background-color: #f8fafc;
-  padding: 80px 0;
+  background-color: #f5f5f5;
+  padding: 60px 0;
 }
 
 .benefits-grid {
@@ -79,16 +86,16 @@
 
 .benefit-card {
   background: white;
-  padding: 32px 24px;
-  border-radius: 12px;
+  padding: 28px;
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
   text-align: center;
   transition: var(--transition);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .benefit-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+  border-color: #000000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .benefit-icon {

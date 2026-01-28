@@ -74,7 +74,18 @@ exports.getProductById = async (req, res) => {
 // @access  Private/Admin
 exports.createProduct = async (req, res) => {
   try {
-    const product = await Product.create(req.body);
+    const productData = req.body;
+
+    // Handle image upload
+    if (req.file) {
+      const imageUrl = `/uploads/${req.file.filename}`;
+      productData.images = [{
+        url: imageUrl,
+        alt: req.body.name || 'Product image'
+      }];
+    }
+
+    const product = await Product.create(productData);
 
     res.status(201).json({
       success: true,

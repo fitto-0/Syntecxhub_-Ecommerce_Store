@@ -1,12 +1,14 @@
 .profile-page {
   min-height: 80vh;
   padding: 40px 0;
+  background: #ffffff;
 }
 
 .profile-page h1 {
   font-size: 32px;
   margin-bottom: 32px;
-  color: #1e293b;
+  color: #000000;
+  font-weight: 700;
 }
 
 .message {
@@ -26,16 +28,17 @@
 .profile-card,
 .orders-card {
   background: white;
-  border-radius: 12px;
+  border-radius: 4px;
   padding: 32px;
-  border: 1px solid var(--border-color);
+  border: 1px solid #e8e8e8;
 }
 
 .profile-card h2,
 .orders-card h2 {
-  font-size: 20px;
+  font-size: 18px;
   margin-bottom: 24px;
-  color: #1e293b;
+  color: #000000;
+  font-weight: 600;
 }
 
 .form-group {
@@ -44,24 +47,24 @@
 
 .form-group label {
   display: block;
-  font-weight: 600;
+  font-weight: 500;
   margin-bottom: 8px;
-  color: #1e293b;
+  color: #000000;
   font-size: 14px;
 }
 
 .form-group input {
   width: 100%;
   padding: 12px;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
   font-size: 14px;
 }
 
 .form-group input:focus {
   outline: none;
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  border-color: #000000;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05);
 }
 
 .form-row {

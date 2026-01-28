@@ -1,12 +1,14 @@
 .order-history-page {
   min-height: 80vh;
   padding: 40px 0;
+  background: #ffffff;
 }
 
 .order-history-page h1 {
   font-size: 32px;
   margin-bottom: 32px;
-  color: #1e293b;
+  color: #000000;
+  font-weight: 700;
 }
 
 .orders-container {
@@ -23,21 +25,21 @@
 
 .order-card {
   background: white;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
   padding: 16px;
   cursor: pointer;
   transition: var(--transition);
 }
 
 .order-card:hover {
-  border-color: var(--primary-color);
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.1);
+  border-color: #000000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
 .order-card.active {
-  border-color: var(--primary-color);
-  background-color: rgba(99, 102, 241, 0.05);
+  border-color: #000000;
+  background-color: #f5f5f5;
 }
 
 .order-header {
@@ -48,22 +50,22 @@
 }
 
 .order-number {
-  font-weight: 700;
-  color: #1e293b;
+  font-weight: 600;
+  color: #000000;
   margin: 0 0 4px 0;
   font-size: 14px;
 }
 
 .order-date {
   font-size: 12px;
-  color: var(--gray-text);
+  color: #666666;
   margin: 0;
 }
 
 .order-amount {
-  font-weight: 700;
+  font-weight: 600;
   font-size: 16px;
-  color: var(--primary-color);
+  color: #000000;
 }
 
 .order-footer {

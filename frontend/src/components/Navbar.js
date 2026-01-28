@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FiMenu, FiX, FiShoppingCart, FiUser } from 'react-icons/fi';
 import { useAuth } from '../hooks/useAuth';
 import { useCart } from '../hooks/useCart';
@@ -8,12 +8,15 @@ import './styles/Navbar.css';
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { isAuthenticated, user, logout } = useAuth();
-  const { items } = useCart();
+  const { items, clearCart } = useCart();
+  const navigate = useNavigate();
 
   const cartCount = items.length;
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await clearCart();
     logout();
+    navigate('/');
   };
 
   return (

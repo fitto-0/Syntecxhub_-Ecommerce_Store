@@ -9,20 +9,31 @@ exports.createOrder = async (req, res) => {
   try {
     const { shippingAddress, billingAddress, paymentMethod } = req.body;
 
+    // Check if user is authenticated
+    if (!req.user || !req.user.id) {
+      return res.status(401).json({ success: false, message: 'User not authenticated' });
+    }
+
     const cart = await Cart.findOne({ userId: req.user.id }).populate('items.productId');
 
     if (!cart || cart.items.length === 0) {
       return res.status(400).json({ success: false, message: 'Cart is empty' });
     }
 
-    // Prepare order items
-    const items = cart.items.map((item) => ({
-      productId: item.productId._id,
-      productName: item.productId.name,
-      quantity: item.quantity,
-      price: item.price,
-      subtotal: item.price * item.quantity,
-    }));
+    // Prepare order items - filter out deleted products
+    const items = cart.items
+      .filter((item) => item.productId !== null) // Skip deleted products
+      .map((item) => ({
+        productId: item.productId._id,
+        productName: item.productId.name,
+        quantity: item.quantity,
+        price: item.price,
+        subtotal: item.price * item.quantity,
+      }));
+
+    if (items.length === 0) {
+      return res.status(400).json({ success: false, message: 'No valid products in cart' });
+    }
 
     const subtotal = items.reduce((sum, item) => sum + item.subtotal, 0);
     const shippingCost = subtotal > 100 ? 0 : 10; // Free shipping for orders over $100

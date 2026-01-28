@@ -7,7 +7,7 @@ import './styles/CheckoutPage.css';
 
 const CheckoutPage = () => {
   const { items, totalPrice, clearCart } = useCart();
-  const { user } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
 
   const [step, setStep] = useState(1);
@@ -29,6 +29,22 @@ const CheckoutPage = () => {
   const [sameAsShipping, setSameAsShipping] = useState(true);
   const [paymentMethod, setPaymentMethod] = useState('credit_card');
 
+  // Redirect to login if not authenticated
+  if (!isAuthenticated || !user) {
+    return (
+      <div className="checkout-page">
+        <div className="container">
+          <div className="empty-cart">
+            <h2>You need to be logged in to checkout</h2>
+            <button onClick={() => navigate('/login')} className="btn btn-primary">
+              Go to Login
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const shippingCost = totalPrice > 100 ? 0 : 10;
   const tax = totalPrice * 0.1;
   const totalAmount = totalPrice + shippingCost + tax;
@@ -44,6 +60,29 @@ const CheckoutPage = () => {
   const handlePlaceOrder = async () => {
     try {
       setError('');
+      
+      // Validate shipping address
+      if (!shippingData.firstName || !shippingData.lastName || !shippingData.street || 
+          !shippingData.city || !shippingData.state || !shippingData.zipCode || !shippingData.country) {
+        setError('Please fill in all shipping address fields');
+        return;
+      }
+
+      // Validate billing address if different
+      if (!sameAsShipping) {
+        if (!billingData.firstName || !billingData.lastName || !billingData.street || 
+            !billingData.city || !billingData.state || !billingData.zipCode || !billingData.country) {
+          setError('Please fill in all billing address fields');
+          return;
+        }
+      }
+
+      // Validate payment method
+      if (!paymentMethod) {
+        setError('Please select a payment method');
+        return;
+      }
+
       setLoading(true);
 
       const orderData = {

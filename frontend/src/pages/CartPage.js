@@ -45,13 +45,13 @@ const CartPage = () => {
             {items.map((item) => (
               <div key={item._id} className="cart-item">
                 <img
-                  src={item.productId?.images?.[0]?.url || 'https://via.placeholder.com/120'}
-                  alt={item.productId?.name}
+                  src={item.productData?.images?.[0]?.url || item.productId?.images?.[0]?.url || 'https://via.placeholder.com/120'}
+                  alt={item.productData?.name || item.productId?.name}
                   className="item-image"
                 />
                 <div className="item-details">
-                  <h3>{item.productId?.name}</h3>
-                  <p className="price">${item.price.toFixed(2)}</p>
+                  <h3>{item.productData?.name || item.productId?.name}</h3>
+                  <p className="price">${(item.price || (item.productData?.discountedPrice || item.productData?.originalPrice || 0)).toFixed(2)}</p>
                 </div>
                 <div className="quantity-control">
                   <button onClick={() => updateQuantity(item._id, Math.max(1, item.quantity - 1))}>-</button>
@@ -59,7 +59,7 @@ const CartPage = () => {
                   <button onClick={() => updateQuantity(item._id, item.quantity + 1)}>+</button>
                 </div>
                 <div className="item-subtotal">
-                  ${(item.price * item.quantity).toFixed(2)}
+                  ${((item.price || (item.productData?.discountedPrice || item.productData?.originalPrice || 0)) * item.quantity).toFixed(2)}
                 </div>
                 <button
                   onClick={() => removeFromCart(item._id)}

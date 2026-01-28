@@ -1,6 +1,6 @@
-import { useContext } from 'react';
+import { useContext, useMemo } from 'react';
 import { CartContext } from '../context/CartContext';
-import { cartService } from '../services/api';
+import { cartService, productService } from '../services/api';
 
 export const useCart = () => {
   const context = useContext(CartContext);
@@ -10,7 +10,25 @@ export const useCart = () => {
 
   const addToCart = async (productId, quantity) => {
     try {
-      context.dispatch({ type: 'ADD_TO_CART', payload: { productId, quantity } });
+      // Fetch product details to get price and images
+      const productResponse = await productService.getProductById(productId);
+      const product = productResponse.data.product;
+      const price = product.discountedPrice || product.price;
+      
+      context.dispatch({ 
+        type: 'ADD_TO_CART', 
+        payload: { 
+          productId, 
+          quantity, 
+          price,
+          productData: {
+            name: product.name,
+            images: product.images,
+            discountedPrice: product.discountedPrice,
+            originalPrice: product.price
+          }
+        } 
+      });
       await cartService.addToCart({ productId, quantity });
     } catch (error) {
       console.error('Failed to add to cart:', error);
@@ -48,8 +66,23 @@ export const useCart = () => {
     }
   };
 
+  // Calculate total price dynamically
+  const totalPrice = useMemo(() => {
+    return context.items.reduce((sum, item) => {
+      const price = item.price || (item.productData?.discountedPrice || item.productData?.originalPrice || 0);
+      return sum + (price * (item.quantity || 1));
+    }, 0);
+  }, [context.items]);
+
+  // Calculate total items
+  const totalItems = useMemo(() => {
+    return context.items.reduce((sum, item) => sum + (item.quantity || 1), 0);
+  }, [context.items]);
+
   return {
     ...context,
+    totalPrice,
+    totalItems,
     addToCart,
     removeFromCart,
     updateQuantity,

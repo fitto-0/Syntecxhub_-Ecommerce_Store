@@ -5,12 +5,13 @@
 }
 
 :root {
-  --primary-color: #6366f1;
-  --secondary-color: #ec4899;
-  --dark-bg: #0f172a;
+  --primary-color: #000000;
+  --secondary-color: #ffffff;
+  --dark-bg: #ffffff;
   --light-bg: #ffffff;
-  --gray-text: #64748b;
-  --border-color: #e2e8f0;
+  --gray-text: #666666;
+  --gray-light: #f5f5f5;
+  --border-color: #e8e8e8;
   --success: #10b981;
   --error: #ef4444;
   --transition: all 0.3s ease;
@@ -30,7 +31,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--light-bg);
-  color: #1e293b;
+  color: #1a1a1a;
   line-height: 1.6;
 }
 
@@ -61,13 +62,14 @@ select {
 }
 
 .btn {
-  padding: 10px 24px;
-  border-radius: 8px;
-  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 4px;
+  font-weight: 500;
   transition: var(--transition);
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  font-size: 14px;
 }
 
 .btn-primary {
@@ -76,20 +78,19 @@ select {
 }
 
 .btn-primary:hover {
-  background-color: #4f46e5;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+  background-color: #1a1a1a;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .btn-secondary {
   background-color: var(--secondary-color);
-  color: white;
+  color: black;
+  border: 1px solid #000000;
 }
 
 .btn-secondary:hover {
-  background-color: #db2777;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+  background-color: #f5f5f5;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .btn-outline {

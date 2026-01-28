@@ -16,7 +16,9 @@ const AdminDashboard = () => {
     price: '',
     category: '',
     stock: '',
+    imageFile: null,
   });
+  const [imagePreview, setImagePreview] = useState(null);
 
   useEffect(() => {
     if (activeTab === 'products') fetchProducts();
@@ -50,11 +52,34 @@ const AdminDashboard = () => {
   const handleAddProduct = async (e) => {
     e.preventDefault();
     try {
-      await productService.createProduct(newProduct);
-      setNewProduct({ name: '', description: '', price: '', category: '', stock: '' });
+      const formData = new FormData();
+      formData.append('name', newProduct.name);
+      formData.append('description', newProduct.description);
+      formData.append('price', newProduct.price);
+      formData.append('category', newProduct.category);
+      formData.append('stock', newProduct.stock);
+      if (newProduct.imageFile) {
+        formData.append('image', newProduct.imageFile);
+      }
+
+      await productService.createProduct(formData);
+      setNewProduct({ name: '', description: '', price: '', category: '', stock: '', imageFile: null });
+      setImagePreview(null);
       fetchProducts();
     } catch (error) {
       console.error('Failed to add product:', error);
+    }
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setNewProduct({ ...newProduct, imageFile: file });
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -153,6 +178,19 @@ const AdminDashboard = () => {
                     onChange={(e) => setNewProduct({ ...newProduct, description: e.target.value })}
                     required
                   />
+                </div>
+                <div className="form-group">
+                  <label>Product Image</label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageChange}
+                  />
+                  {imagePreview && (
+                    <div className="image-preview">
+                      <img src={imagePreview} alt="Product preview" />
+                    </div>
+                  )}
                 </div>
                 <div className="form-row">
                   <div className="form-group">
