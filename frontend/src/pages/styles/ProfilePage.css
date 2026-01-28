@@ -1,0 +1,163 @@
+.profile-page {
+  min-height: 80vh;
+  padding: 40px 0;
+}
+
+.profile-page h1 {
+  font-size: 32px;
+  margin-bottom: 32px;
+  color: #1e293b;
+}
+
+.message {
+  padding: 12px 16px;
+  background-color: #dcfce7;
+  color: #166534;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.profile-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.profile-card,
+.orders-card {
+  background: white;
+  border-radius: 12px;
+  padding: 32px;
+  border: 1px solid var(--border-color);
+}
+
+.profile-card h2,
+.orders-card h2 {
+  font-size: 20px;
+  margin-bottom: 24px;
+  color: #1e293b;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #1e293b;
+  font-size: 14px;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.button-group {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.button-group .btn {
+  flex: 1;
+  justify-content: center;
+}
+
+.profile-info p {
+  margin-bottom: 12px;
+  color: var(--gray-text);
+}
+
+.profile-info strong {
+  color: #1e293b;
+}
+
+.orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+}
+
+.order-number {
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 4px 0;
+}
+
+.order-date {
+  font-size: 12px;
+  color: var(--gray-text);
+  margin: 0;
+}
+
+.order-amount {
+  font-weight: 700;
+  color: var(--primary-color);
+  margin: 0 0 4px 0;
+  font-size: 16px;
+}
+
+.order-status {
+  font-size: 12px;
+  font-weight: 600;
+  margin: 0;
+  text-transform: capitalize;
+}
+
+.order-status.pending {
+  color: #f59e0b;
+}
+
+.order-status.processing {
+  color: #3b82f6;
+}
+
+.order-status.shipped {
+  color: #6366f1;
+}
+
+.order-status.delivered {
+  color: #10b981;
+}
+
+.no-orders {
+  text-align: center;
+  color: var(--gray-text);
+  padding: 32px 0;
+}
+
+@media (max-width: 768px) {
+  .profile-wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}

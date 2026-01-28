@@ -1,0 +1,255 @@
+.checkout-page {
+  min-height: 80vh;
+  padding: 40px 0;
+  background-color: #f8fafc;
+}
+
+.checkout-page h1 {
+  font-size: 32px;
+  margin-bottom: 32px;
+  color: #1e293b;
+}
+
+.error-message {
+  background-color: #fee2e2;
+  color: #991b1b;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+}
+
+.checkout-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 32px;
+}
+
+.checkout-form {
+  background: white;
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.steps {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0.5;
+}
+
+.step.active {
+  opacity: 1;
+}
+
+.step span {
+  width: 40px;
+  height: 40px;
+  background-color: var(--border-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  color: var(--gray-text);
+  transition: var(--transition);
+}
+
+.step.active span {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.step p {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--gray-text);
+  margin: 0;
+}
+
+.form-section h2 {
+  font-size: 20px;
+  margin-bottom: 24px;
+  color: #1e293b;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #1e293b;
+  font-size: 14px;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 14px;
+  transition: var(--transition);
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.form-group.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.form-group.checkbox input {
+  width: 20px;
+  height: 20px;
+  margin: 0;
+}
+
+.form-group.checkbox label {
+  margin: 0;
+  font-weight: 500;
+}
+
+.payment-methods {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.payment-methods label {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.payment-methods label:hover {
+  border-color: var(--primary-color);
+  background-color: rgba(99, 102, 241, 0.05);
+}
+
+.payment-methods input {
+  cursor: pointer;
+  width: auto;
+  margin: 0;
+}
+
+.button-group {
+  display: flex;
+  gap: 12px;
+  margin-top: 32px;
+  justify-content: flex-end;
+}
+
+.button-group .btn {
+  flex: 1;
+  justify-content: center;
+}
+
+.order-summary {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  height: fit-content;
+  position: sticky;
+  top: 100px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.order-summary h3 {
+  font-size: 18px;
+  margin-bottom: 16px;
+  color: #1e293b;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 12px;
+  color: var(--gray-text);
+}
+
+.summary-divider {
+  height: 1px;
+  background-color: var(--border-color);
+  margin: 16px 0;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: var(--gray-text);
+}
+
+.summary-row.total {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 2px solid var(--border-color);
+}
+
+.empty-cart {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.empty-cart h2 {
+  margin-bottom: 24px;
+}
+
+@media (max-width: 968px) {
+  .checkout-wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .order-summary {
+    position: static;
+  }
+}
+
+@media (max-width: 640px) {
+  .checkout-form {
+    padding: 24px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .button-group {
+    flex-direction: column-reverse;
+  }
+}

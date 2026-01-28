@@ -1,0 +1,210 @@
+.admin-dashboard {
+  min-height: 80vh;
+  padding: 40px 0;
+}
+
+.admin-dashboard h1 {
+  font-size: 32px;
+  margin-bottom: 32px;
+  color: #1e293b;
+}
+
+.tabs {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 32px;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.tab {
+  padding: 12px 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--gray-text);
+  transition: var(--transition);
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+}
+
+.tab:hover {
+  color: var(--primary-color);
+}
+
+.tab.active {
+  color: var(--primary-color);
+  border-bottom-color: var(--primary-color);
+}
+
+.dashboard-content,
+.products-content,
+.orders-content {
+  background: white;
+  border-radius: 12px;
+  padding: 32px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 24px;
+}
+
+.stat-card {
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  color: white;
+  padding: 32px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.stat-card h3 {
+  font-size: 14px;
+  text-transform: uppercase;
+  opacity: 0.9;
+  margin: 0 0 16px 0;
+}
+
+.stat-value {
+  font-size: 36px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.add-product-form {
+  background: #f8fafc;
+  padding: 24px;
+  border-radius: 12px;
+  margin-bottom: 32px;
+}
+
+.add-product-form h2 {
+  font-size: 18px;
+  margin-bottom: 16px;
+  color: #1e293b;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #1e293b;
+  font-size: 14px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.products-list h2,
+.orders-content h2 {
+  font-size: 20px;
+  margin-bottom: 24px;
+  color: #1e293b;
+}
+
+.products-table,
+.orders-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.products-table th,
+.orders-table th {
+  background-color: #f8fafc;
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+  color: #1e293b;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.products-table td,
+.orders-table td {
+  padding: 12px;
+  border-bottom: 1px solid var(--border-color);
+  color: var(--gray-text);
+}
+
+.products-table tr:hover,
+.orders-table tr:hover {
+  background-color: #f8fafc;
+}
+
+.btn-delete {
+  background-color: var(--error);
+  color: white;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.btn-delete:hover {
+  background-color: #dc2626;
+}
+
+.status {
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status.pending {
+  color: #f59e0b;
+}
+
+.status.processing {
+  color: #3b82f6;
+}
+
+.status.shipped {
+  color: #6366f1;
+}
+
+.status.delivered {
+  color: #10b981;
+}
+
+@media (max-width: 768px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .tabs {
+    flex-wrap: wrap;
+  }
+
+  .products-table,
+  .orders-table {
+    font-size: 12px;
+  }
+}

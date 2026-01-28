@@ -1,0 +1,252 @@
+.product-detail-page {
+  min-height: 80vh;
+  padding: 40px 0;
+}
+
+.back-link {
+  display: inline-block;
+  color: var(--primary-color);
+  font-weight: 600;
+  margin-bottom: 32px;
+  transition: var(--transition);
+}
+
+.back-link:hover {
+  transform: translateX(-4px);
+}
+
+.product-detail-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+.product-images {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.main-image {
+  width: 100%;
+  aspect-ratio: 1;
+  background-color: #f8fafc;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.main-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thumbnails {
+  display: flex;
+  gap: 12px;
+}
+
+.thumbnail {
+  width: 80px;
+  height: 80px;
+  border-radius: 8px;
+  cursor: pointer;
+  border: 2px solid var(--border-color);
+  transition: var(--transition);
+  object-fit: cover;
+}
+
+.thumbnail:hover {
+  border-color: var(--primary-color);
+}
+
+.product-details {
+  padding: 20px 0;
+}
+
+.badge {
+  display: inline-block;
+  background-color: #dbeafe;
+  color: var(--primary-color);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.product-details h1 {
+  font-size: 36px;
+  margin-bottom: 16px;
+  color: #1e293b;
+  line-height: 1.2;
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.review-count {
+  color: var(--gray-text);
+  font-size: 14px;
+  margin-left: 8px;
+}
+
+.price-section {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.current-price {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--primary-color);
+}
+
+.original-price {
+  font-size: 18px;
+  color: var(--gray-text);
+  text-decoration: line-through;
+}
+
+.discount-label {
+  background-color: #fee2e2;
+  color: #991b1b;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.description {
+  color: var(--gray-text);
+  font-size: 16px;
+  line-height: 1.8;
+  margin-bottom: 24px;
+}
+
+.product-meta {
+  display: flex;
+  gap: 32px;
+  margin-bottom: 32px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.meta-item .label {
+  color: var(--gray-text);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.in-stock {
+  color: var(--success);
+  font-weight: 700;
+}
+
+.out-of-stock {
+  color: var(--error);
+  font-weight: 700;
+}
+
+.success-message {
+  background-color: #dcfce7;
+  color: #166534;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.error-message {
+  background-color: #fee2e2;
+  color: #991b1b;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.add-to-cart-section {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.quantity-selector {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.quantity-selector button {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: var(--transition);
+  color: #1e293b;
+}
+
+.quantity-selector button:hover {
+  background-color: #f8fafc;
+}
+
+.quantity-selector input {
+  width: 60px;
+  border: none;
+  border-left: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
+  text-align: center;
+  font-weight: 600;
+}
+
+.quantity-selector input:focus {
+  outline: none;
+}
+
+.error-container {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--gray-text);
+}
+
+@media (max-width: 768px) {
+  .product-detail-wrapper {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .product-details h1 {
+    font-size: 24px;
+  }
+
+  .current-price {
+    font-size: 24px;
+  }
+
+  .add-to-cart-section {
+    flex-direction: column;
+  }
+
+  .add-to-cart-section .btn {
+    width: 100%;
+  }
+}
