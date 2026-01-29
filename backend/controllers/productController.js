@@ -25,16 +25,21 @@ exports.getProducts = async (req, res) => {
       ];
     }
 
-    let products = Product.find(query);
+    let products;
 
     if (sort === 'price_asc') {
-      products = products.sort({ price: 1 });
+      products = Product.find(query).sort({ price: 1 });
     } else if (sort === 'price_desc') {
-      products = products.sort({ price: -1 });
+      products = Product.find(query).sort({ price: -1 });
     } else if (sort === 'newest') {
-      products = products.sort({ createdAt: -1 });
+      products = Product.find(query).sort({ createdAt: -1 });
     } else if (sort === 'rating') {
-      products = products.sort({ rating: -1 });
+      products = Product.find(query).sort({ rating: -1 });
+    } else if (sort === 'random') {
+      products = Product.aggregate([{ $match: query }, { $sample: { size: 100 } }]);
+    } else {
+      // Default to random for diverse display
+      products = Product.aggregate([{ $match: query }, { $sample: { size: 100 } }]);
     }
 
     const data = await products;

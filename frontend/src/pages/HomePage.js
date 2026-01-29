@@ -16,7 +16,7 @@ const HomePage = () => {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        const response = await productService.getAllProducts({ limit: 12 });
+        const response = await productService.getAllProducts({ limit: 12, sort: 'random' });
         setFeaturedProducts(response.data.products.slice(0, 6));
         setAllProducts(response.data.products);
       } catch (error) {
@@ -114,7 +114,7 @@ const HomePage = () => {
             {['All Products', 'Electronics', 'Clothing', 'Books', 'Home', 'Beauty'].map((cat, idx) => (
               <Link
                 key={idx}
-                to={cat === 'All Products' ? '/products' : `/products?category=${cat}`}
+                to={cat === 'All Products' ? '/products' : `/products?category=${cat.toLowerCase()}`}
                 className="p-3 bg-white rounded-lg text-center hover:shadow-md transition border border-gray-200 hover:border-black font-medium text-sm"
               >
                 {cat}
@@ -128,7 +128,6 @@ const HomePage = () => {
       <section className="featured-section py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl font-black text-black mb-2">Featured</h2>
-          <p className="text-gray-600 text-sm mb-12 font-light">Premium selection of our best products</p>
 
           {loading ? (
             <div className="flex justify-center items-center py-24">

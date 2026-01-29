@@ -9,7 +9,7 @@ const ProductListPage = () => {
   const [loading, setLoading] = useState(false);
   const [category, setCategory] = useState('');
   const [search, setSearch] = useState('');
-  const [sort, setSort] = useState('');
+  const [sort, setSort] = useState('random');
 
   useEffect(() => {
     fetchProducts();
@@ -47,16 +47,16 @@ const ProductListPage = () => {
 
           <select value={category} onChange={(e) => setCategory(e.target.value)} className="filter-select">
             <option value="">All Categories</option>
-            <option value="Electronics">Electronics</option>
-            <option value="Clothing">Clothing</option>
-            <option value="Books">Books</option>
-            <option value="Home">Home</option>
-            <option value="Beauty">Beauty</option>
-            <option value="Sports">Sports</option>
+            <option value="electronics">Electronics</option>
+            <option value="clothing">Clothing</option>
+            <option value="books">Books</option>
+            <option value="home">Home</option>
+            <option value="beauty">Beauty</option>
+            <option value="sports">Sports</option>
           </select>
 
           <select value={sort} onChange={(e) => setSort(e.target.value)} className="filter-select">
-            <option value="">Sort By</option>
+            <option value="random">Random (Diverse)</option>
             <option value="price_asc">Price: Low to High</option>
             <option value="price_desc">Price: High to Low</option>
             <option value="newest">Newest</option>
