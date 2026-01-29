@@ -74,24 +74,53 @@ exports.getProductById = async (req, res) => {
 // @access  Private/Admin
 exports.createProduct = async (req, res) => {
   try {
-    const productData = req.body;
+    const { name, description, price, discountedPrice, category, stock } = req.body;
 
-    // Handle image upload
-    if (req.file) {
-      const imageUrl = `/uploads/${req.file.filename}`;
-      productData.images = [{
-        url: imageUrl,
-        alt: req.body.name || 'Product image'
-      }];
+    console.log('===== CREATE PRODUCT REQUEST =====');
+    console.log('Body:', req.body);
+    console.log('Files:', req.files);
+    console.log('Files length:', req.files ? req.files.length : 'undefined');
+    console.log('Files array:', Array.isArray(req.files));
+
+    // Create images array from uploaded files
+    let images = [];
+    if (req.files && Array.isArray(req.files) && req.files.length > 0) {
+      images = req.files.map((file) => {
+        console.log('Processing file:', file.filename);
+        return {
+          url: `/uploads/${file.filename}`,
+          alt: name || 'Product image'
+        };
+      });
+      console.log('Images array created:', images);
+    } else {
+      console.log('No files found - returning error');
+      return res.status(400).json({ success: false, message: 'At least one image is required', filesReceived: req.files });
     }
 
+    // Create product with all data
+    const productData = {
+      name,
+      description,
+      price: parseFloat(price),
+      discountedPrice: discountedPrice ? parseFloat(discountedPrice) : parseFloat(price),
+      category,
+      stock: parseInt(stock) || 0,
+      images
+    };
+
     const product = await Product.create(productData);
+    
+    console.log('Product saved to database:', product);
+    console.log('Saved images:', product.images);
+    console.log('===== END CREATE PRODUCT =====');
 
     res.status(201).json({
       success: true,
       product,
     });
   } catch (error) {
+    console.error('Error creating product:', error);
     res.status(400).json({ success: false, message: error.message });
   }
 };
@@ -101,22 +130,55 @@ exports.createProduct = async (req, res) => {
 // @access  Private/Admin
 exports.updateProduct = async (req, res) => {
   try {
+    const { name, description, price, discountedPrice, category, stock } = req.body;
+    
     let product = await Product.findById(req.params.id);
 
     if (!product) {
       return res.status(404).json({ success: false, message: 'Product not found' });
     }
 
-    product = await Product.findByIdAndUpdate(req.params.id, req.body, {
+    console.log('Updating product:', req.params.id);
+    console.log('Files received:', req.files);
+
+    // Handle image updates - only new images, no existing images
+    let images = [];
+
+    // Add newly uploaded files
+    if (req.files && req.files.length > 0) {
+      images = req.files.map((file) => ({
+        url: `/uploads/${file.filename}`,
+        alt: name || 'Product image'
+      }));
+      console.log('New images created:', images);
+    } else {
+      return res.status(400).json({ success: false, message: 'At least one image is required' });
+    }
+
+    // Create update data
+    const updateData = {
+      name,
+      description,
+      price: parseFloat(price),
+      discountedPrice: discountedPrice ? parseFloat(discountedPrice) : parseFloat(price),
+      category,
+      stock: parseInt(stock) || 0,
+      images
+    };
+
+    product = await Product.findByIdAndUpdate(req.params.id, updateData, {
       new: true,
       runValidators: true,
     });
+
+    console.log('Product updated with images:', product.images);
 
     res.status(200).json({
       success: true,
       product,
     });
   } catch (error) {
+    console.error('Error updating product:', error);
     res.status(400).json({ success: false, message: error.message });
   }
 };

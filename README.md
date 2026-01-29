@@ -1,4 +1,4 @@
-# ShopHub - Full-Stack E-Commerce Application (MERN)
+# NOVA - Full-Stack E-Commerce Application (MERN)
 
 A modern, fully-featured e-commerce web application built with MongoDB, Express.js, React, and Node.js (MERN stack).
 

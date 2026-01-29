@@ -32,7 +32,7 @@ const LoginPage = () => {
   return (
     <div className="auth-container">
       <div className="auth-card">
-        <h1>Login to ShopHub</h1>
+        <h1>Login to NOVA</h1>
         <p>Welcome back! Please login to your account.</p>
 
         {error && <div className="error-message">{error}</div>}

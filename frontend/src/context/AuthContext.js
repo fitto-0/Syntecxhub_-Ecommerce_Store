@@ -16,6 +16,7 @@ const authReducer = (state, action) => {
       return { ...state, loading: true, error: null };
     case 'LOGIN_SUCCESS':
       localStorage.setItem('token', action.payload.token);
+      localStorage.setItem('user', JSON.stringify(action.payload.user));
       return {
         ...state,
         user: action.payload.user,
@@ -27,6 +28,7 @@ const authReducer = (state, action) => {
       return { ...state, loading: false, error: action.payload };
     case 'LOGOUT':
       localStorage.removeItem('token');
+      localStorage.removeItem('user');
       return {
         ...state,
         user: null,
@@ -42,6 +44,22 @@ const authReducer = (state, action) => {
 
 export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
+
+  React.useEffect(() => {
+    // Restore user from localStorage on mount
+    const token = localStorage.getItem('token');
+    const user = localStorage.getItem('user');
+    if (token && user) {
+      try {
+        dispatch({
+          type: 'SET_USER',
+          payload: JSON.parse(user),
+        });
+      } catch (e) {
+        console.error('Failed to restore user', e);
+      }
+    }
+  }, []);
 
   return (
     <AuthContext.Provider value={{ ...state, dispatch }}>

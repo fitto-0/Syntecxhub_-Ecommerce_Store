@@ -234,13 +234,18 @@
 }
 
 @media (max-width: 768px) {
+  .product-detail-page {
+    padding: 20px 0;
+  }
+
   .product-detail-wrapper {
     grid-template-columns: 1fr;
-    gap: 32px;
+    gap: 24px;
   }
 
   .product-details h1 {
     font-size: 24px;
+    margin-bottom: 12px;
   }
 
   .current-price {
@@ -249,9 +254,107 @@
 
   .add-to-cart-section {
     flex-direction: column;
+    gap: 12px;
   }
 
   .add-to-cart-section .btn {
     width: 100%;
   }
+
+  .product-meta {
+    flex-direction: column;
+    gap: 16px;
+    padding-bottom: 16px;
+  }
+
+  .thumbnails {
+    gap: 8px;
+  }
+
+  .thumbnail {
+    width: 60px;
+    height: 60px;
+  }
+
+  .quantity-selector {
+    width: 100%;
+  }
 }
+
+@media (max-width: 480px) {
+  .product-detail-page {
+    padding: 15px 0;
+  }
+
+  .product-details h1 {
+    font-size: 20px;
+  }
+
+  .current-price {
+    font-size: 20px;
+  }
+
+  .original-price {
+    font-size: 14px;
+  }
+
+  .badge {
+    font-size: 10px;
+    padding: 4px 8px;
+  }
+
+  .rating {
+    margin-bottom: 16px;
+  }
+
+  .price-section {
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .description {
+    font-size: 14px;
+    margin-bottom: 16px;
+  }
+
+  .add-to-cart-section {
+    flex-direction: row;
+    gap: 8px;
+    align-items: stretch;
+  }
+
+  .add-to-cart-section .btn {
+    flex: 1;
+    font-size: 14px !important;
+    padding: 10px 12px !important;
+  }
+
+  .quantity-selector {
+    flex-shrink: 0;
+  }
+
+  .quantity-selector button {
+    width: 35px;
+    height: 40px;
+    font-size: 14px;
+  }
+
+  .quantity-selector input {
+    width: 50px;
+  }
+
+  .btn {
+    font-size: 14px !important;
+    padding: 10px 16px !important;
+  }
+
+  .thumbnails {
+    gap: 6px;
+  }
+
+  .thumbnail {
+    width: 50px;
+    height: 50px;
+  }
+}
+

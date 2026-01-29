@@ -5,6 +5,14 @@ import { productService } from '../services/api';
 import { useCart } from '../hooks/useCart';
 import './styles/ProductDetailPage.css';
 
+// Utility function to convert relative paths to absolute URLs
+const getImageUrl = (url) => {
+  if (!url) return 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="500" height="500"%3E%3Crect fill="%23f5f5f5" width="500" height="500"/%3E%3C/svg%3E';
+  if (url.startsWith('data:')) return url;
+  if (url.startsWith('http')) return url;
+  return `http://localhost:5000${url}`;
+};
+
 const ProductDetailPage = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
@@ -13,6 +21,7 @@ const ProductDetailPage = () => {
   const [addingToCart, setAddingToCart] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [mainImage, setMainImage] = useState(null);
   const { addToCart } = useCart();
 
   useEffect(() => {
@@ -21,6 +30,10 @@ const ProductDetailPage = () => {
         setLoading(true);
         const response = await productService.getProductById(id);
         setProduct(response.data.product);
+        // Set the first image as the main image
+        if (response.data.product.images && response.data.product.images.length > 0) {
+          setMainImage(response.data.product.images[0]);
+        }
       } catch (err) {
         setError('Failed to load product');
       } finally {
@@ -57,7 +70,7 @@ const ProductDetailPage = () => {
           <div className="product-images">
             <div className="main-image">
               <img
-                src={product.images?.[0]?.url || 'https://via.placeholder.com/500x500'}
+                src={getImageUrl(mainImage?.url)}
                 alt={product.name}
               />
             </div>
@@ -66,9 +79,10 @@ const ProductDetailPage = () => {
                 {product.images.map((img, idx) => (
                   <img
                     key={idx}
-                    src={img.url}
+                    src={getImageUrl(img.url)}
                     alt={`${product.name} ${idx}`}
-                    className="thumbnail"
+                    className={`thumbnail ${mainImage?.url === img.url ? 'active' : ''}`}
+                    onClick={() => setMainImage(img)}
                   />
                 ))}
               </div>
@@ -76,16 +90,15 @@ const ProductDetailPage = () => {
           </div>
 
           <div className="product-details">
-            <div className="badge">{product.category}</div>
-            <h1>{product.name}</h1>
+            
 
             <div className="rating">
               {Array.from({ length: 5 }).map((_, i) => (
                 <FiStar
                   key={i}
                   size={18}
-                  fill={i < Math.round(product.rating) ? '#fbbf24' : 'none'}
-                  color={i < Math.round(product.rating) ? '#fbbf24' : '#cbd5e1'}
+                  fill={i < Math.round(product.rating) ? '#C9A24D' : 'none'}
+                  color={i < Math.round(product.rating) ? '#C9A24D' : '#cbd5e1'}
                 />
               ))}
               <span className="review-count">({product.numberOfReviews} reviews)</span>

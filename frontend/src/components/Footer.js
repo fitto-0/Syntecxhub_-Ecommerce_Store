@@ -11,7 +11,7 @@ const Footer = () => {
       <div className="container">
         <div className="footer-content">
           <div className="footer-section">
-            <h3>About ShopHub</h3>
+            <h3>About NOVA</h3>
             <p>Your modern e-commerce destination for quality products and exceptional service.</p>
           </div>
 
@@ -47,7 +47,7 @@ const Footer = () => {
         </div>
 
         <div className="footer-bottom">
-          <p>&copy; {currentYear} ShopHub. All rights reserved.</p>
+          <p>&copy; {currentYear} NOVA. All rights reserved.</p>
           <div className="footer-links">
             <a href="#/">Privacy Policy</a>
             <a href="#/">Terms of Service</a>

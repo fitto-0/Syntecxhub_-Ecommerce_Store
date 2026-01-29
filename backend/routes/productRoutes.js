@@ -14,8 +14,8 @@ const router = express.Router();
 
 router.get('/', getProducts);
 router.get('/:id', getProductById);
-router.post('/', protect, authorize('admin'), upload.single('image'), createProduct);
-router.put('/:id', protect, authorize('admin'), updateProduct);
+router.post('/', protect, authorize('admin'), upload.array('images', 10), createProduct);
+router.put('/:id', protect, authorize('admin'), upload.array('images', 10), updateProduct);
 router.delete('/:id', protect, authorize('admin'), deleteProduct);
 router.post('/:id/review', protect, addReview);
 

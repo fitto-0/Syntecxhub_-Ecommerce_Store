@@ -23,10 +23,9 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="container">
         <div className="nav-content">
-          <Link to="/" className="logo">
-            <span className="logo-icon">🛒</span>
-            <span className="logo-text">ShopHub</span>
-          </Link>
+         <Link to="/" className="logo">
+            <img src="/logo.png" alt="NOVA logo" className="logo-img" />
+         </Link>
 
           <button
             className="menu-toggle"
