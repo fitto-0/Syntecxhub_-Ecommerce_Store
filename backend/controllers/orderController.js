@@ -40,7 +40,26 @@ exports.createOrder = async (req, res) => {
     const tax = subtotal * 0.1; // 10% tax
     const totalAmount = subtotal + shippingCost + tax;
 
+    // Generate unique order number
+    const orderNumber = 'ORD-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+
+    // Set initial order status based on payment method
+    let orderStatus = 'pending';
+    let paymentStatus = 'pending';
+
+    // For digital payments (credit/debit card, PayPal), set to processing
+    if (['credit_card', 'debit_card', 'paypal'].includes(paymentMethod)) {
+      orderStatus = 'processing';
+      paymentStatus = 'pending'; // Would be 'completed' after actual payment processing
+    }
+    // For bank transfer, keep as pending until payment is confirmed
+    else if (paymentMethod === 'bank_transfer') {
+      orderStatus = 'pending';
+      paymentStatus = 'pending';
+    }
+
     const order = await Order.create({
+      orderNumber,
       userId: req.user.id,
       items,
       shippingAddress,
@@ -50,8 +69,8 @@ exports.createOrder = async (req, res) => {
       tax,
       totalAmount,
       paymentMethod,
-      paymentStatus: 'completed',
-      orderStatus: 'processing',
+      paymentStatus,
+      orderStatus,
     });
 
     // Reduce product stock

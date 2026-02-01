@@ -14,6 +14,10 @@ import RegisterPage from './pages/RegisterPage';
 import ProfilePage from './pages/ProfilePage';
 import OrderHistoryPage from './pages/OrderHistoryPage';
 import AdminPanel from './pages/AdminPanel';
+import ContactPage from './pages/ContactPage';
+import FAQPage from './pages/FAQPage';
+import ShippingPage from './pages/ShippingPage';
+import ReturnsPage from './pages/ReturnsPage';
 import NotFoundPage from './pages/NotFoundPage';
 import Iridescence from './pages/Iridescence';
 import './styles/global.css';
@@ -39,6 +43,10 @@ function App() {
                   <Route path="/profile" element={<ProfilePage />} />
                   <Route path="/orders" element={<OrderHistoryPage />} />
                   <Route path="/admin" element={<AdminPanel />} />
+                  <Route path="/contact" element={<ContactPage />} />
+                  <Route path="/faq" element={<FAQPage />} />
+                  <Route path="/shipping" element={<ShippingPage />} />
+                  <Route path="/returns" element={<ReturnsPage />} />
                   <Route path="*" element={<NotFoundPage />} />
                 </Routes>
               </main>

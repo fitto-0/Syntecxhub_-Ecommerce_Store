@@ -8,6 +8,40 @@ export const useCart = () => {
     throw new Error('useCart must be used within a CartProvider');
   }
 
+  const loadCart = async () => {
+    try {
+      const response = await cartService.getCart();
+      const backendCart = response.data.cart;
+      
+      if (backendCart && backendCart.items) {
+        // Transform backend cart items to frontend format
+        const frontendItems = backendCart.items.map(item => ({
+          _id: item._id,
+          productId: item.productId._id,
+          quantity: item.quantity,
+          price: item.price,
+          productData: {
+            name: item.productId.name,
+            images: item.productId.images,
+            discountedPrice: item.productId.discountedPrice,
+            originalPrice: item.productId.price
+          }
+        }));
+        
+        context.dispatch({ 
+          type: 'SET_CART', 
+          payload: { 
+            items: frontendItems, 
+            totalPrice: backendCart.totalPrice 
+          } 
+        });
+      }
+    } catch (error) {
+      console.error('Failed to load cart:', error);
+      // If backend cart fails, keep using local storage cart
+    }
+  };
+
   const addToCart = async (productId, quantity) => {
     try {
       // Fetch product details to get price and images
@@ -48,8 +82,18 @@ export const useCart = () => {
 
   const updateQuantity = async (itemId, quantity) => {
     try {
+      // Update local state first for immediate UI feedback
       context.dispatch({ type: 'UPDATE_QUANTITY', payload: { itemId, quantity } });
-      await cartService.updateCartItem(itemId, quantity);
+      
+      // Only update backend if item has a valid MongoDB ID (24 characters)
+      if (itemId && itemId.toString().length === 24) {
+        try {
+          await cartService.updateCartItem(itemId, quantity);
+        } catch (backendError) {
+          console.warn('Backend update failed, keeping local changes:', backendError);
+          // Don't throw error - keep local changes
+        }
+      }
     } catch (error) {
       console.error('Failed to update quantity:', error);
       throw error;
@@ -83,6 +127,7 @@ export const useCart = () => {
     ...context,
     totalPrice,
     totalItems,
+    loadCart,
     addToCart,
     removeFromCart,
     updateQuantity,

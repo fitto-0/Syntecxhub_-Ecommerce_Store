@@ -295,7 +295,7 @@ const CheckoutPage = () => {
             <h3>Order Summary</h3>
             {items.map((item) => (
               <div key={item._id} className="summary-item">
-                <span>{item.productId?.name} x {item.quantity}</span>
+                <span>{item.productData?.name || item.productId?.name} x {item.quantity}</span>
                 <span>${(item.price * item.quantity).toFixed(2)}</span>
               </div>
             ))}

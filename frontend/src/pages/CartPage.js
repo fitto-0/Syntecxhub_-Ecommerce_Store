@@ -6,9 +6,20 @@ import { useAuth } from '../hooks/useAuth';
 import './styles/CartPage.css';
 
 const CartPage = () => {
-  const { items, totalPrice, removeFromCart, updateQuantity } = useCart();
+  const { items, totalPrice, removeFromCart, updateQuantity, loadCart } = useCart();
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
+
+  const getImageUrl = (url) => {
+    if (!url) return 'https://via.placeholder.com/120';
+    return url.startsWith('http') ? url : `http://localhost:5000${url}`;
+  };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      loadCart();
+    }
+  }, [isAuthenticated, loadCart]);
 
   const handleCheckout = () => {
     if (!isAuthenticated) {
@@ -45,7 +56,7 @@ const CartPage = () => {
             {items.map((item) => (
               <div key={item._id} className="cart-item">
                 <img
-                  src={item.productData?.images?.[0]?.url || item.productId?.images?.[0]?.url || 'https://via.placeholder.com/120'}
+                  src={getImageUrl(item.productData?.images?.[0]?.url || item.productId?.images?.[0]?.url)}
                   alt={item.productData?.name || item.productId?.name}
                   className="item-image"
                 />

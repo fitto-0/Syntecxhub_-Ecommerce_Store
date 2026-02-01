@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { orderService } from '../services/api';
 import './styles/OrderHistoryPage.css';
 
@@ -6,16 +7,31 @@ const OrderHistoryPage = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [successMessage, setSuccessMessage] = useState('');
+  const location = useLocation();
 
   useEffect(() => {
     fetchOrders();
-  }, []);
+    
+    // Check if there's a new order from checkout
+    if (location.state?.newOrder) {
+      setSuccessMessage('Order placed successfully!');
+      // Clear the state after showing the message
+      window.history.replaceState({}, document.title);
+    }
+  }, [location.state]);
 
   const fetchOrders = async () => {
     try {
       setLoading(true);
       const response = await orderService.getUserOrders();
       setOrders(response.data.orders);
+      
+      // Select the newest order if there's a new order from checkout
+      if (location.state?.newOrder) {
+        const newOrder = location.state.newOrder;
+        setSelectedOrder(newOrder);
+      }
     } catch (error) {
       console.error('Failed to fetch orders:', error);
     } finally {
@@ -27,6 +43,12 @@ const OrderHistoryPage = () => {
     <div className="order-history-page">
       <div className="container">
         <h1>Order History</h1>
+
+        {successMessage && (
+          <div className="success-message">
+            {successMessage}
+          </div>
+        )}
 
         {loading ? (
           <div className="spinner"></div>
