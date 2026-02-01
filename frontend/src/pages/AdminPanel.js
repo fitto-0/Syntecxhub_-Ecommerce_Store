@@ -5,15 +5,6 @@ import { productService } from '../services/api';
 import { useAuth } from '../hooks/useAuth';
 import './styles/AdminPanel.css';
 
-// Utility function to convert relative image URLs to absolute URLs
-const getImageUrl = (url) => {
-  if (!url) return '';
-  if (url.startsWith('http') || url.startsWith('data:')) return url;
-  const apiBase = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
-  const serverBase = apiBase.replace('/api', '');
-  return `${serverBase}${url}`;
-};
-
 const AdminPanel = () => {
   const { isAuthenticated, user } = useAuth();
   const [activeTab, setActiveTab] = useState('analytics'); // analytics, manage, create
@@ -22,6 +13,8 @@ const AdminPanel = () => {
   const [editingProduct, setEditingProduct] = useState(null);
   const [images, setImages] = useState([]);
   const [imageFiles, setImageFiles] = useState([]);
+  const [newImageUrl, setNewImageUrl] = useState('');
+  const [newImageAlt, setNewImageAlt] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   
@@ -107,8 +100,6 @@ const AdminPanel = () => {
       alt: '',
     }));
     setImageFiles([...imageFiles, ...fileArray]);
-    // Reset input so same files can be selected again
-    e.target.value = '';
   };
 
   const handleCreateProductImageUpload = (e) => {
@@ -119,8 +110,6 @@ const AdminPanel = () => {
       alt: '',
     }));
     setCreateProductImages([...createProductImages, ...fileArray]);
-    // Reset input so same files can be selected again
-    e.target.value = '';
   };
 
   const handleDragOver = (e) => {
@@ -163,14 +152,14 @@ const AdminPanel = () => {
     e.currentTarget.classList.remove('drag-over');
     
     const files = Array.from(e.dataTransfer.files);
-    const droppedFiles = files.filter(file => file.type.startsWith('image/'));
+    const imageFiles = files.filter(file => file.type.startsWith('image/'));
     
-    if (droppedFiles.length === 0) {
+    if (imageFiles.length === 0) {
       setError('Please drop image files only');
       return;
     }
 
-    const fileArray = droppedFiles.map((file) => ({
+    const fileArray = imageFiles.map((file) => ({
       file,
       preview: URL.createObjectURL(file),
       alt: '',
@@ -213,13 +202,12 @@ const AdminPanel = () => {
       formData.append('stock', parseInt(newProduct.stock) || 0);
 
       // Add images
-      createProductImages.forEach((img) => {
+      createProductImages.forEach((img, idx) => {
         formData.append('images', img.file);
+        formData.append(`altText_${idx}`, img.alt || 'Product Image');
       });
 
       const response = await productService.createProduct(formData);
-      
-      console.log('Product created:', response.data);
       
       setSuccess('Product created successfully!');
       setNewProduct({
@@ -232,74 +220,67 @@ const AdminPanel = () => {
         images: [],
       });
       setCreateProductImages([]);
-      
-      // Add small delay to ensure server processed the files
-      setTimeout(() => {
-        fetchProducts();
-        calculateAnalytics();
-      }, 500);
-      
+      fetchProducts();
+      calculateAnalytics();
       setTimeout(() => setSuccess(''), 3000);
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to create product');
-      console.error('Error creating product:', err);
     }
   }
 
   const startEditingProduct = (product) => {
     setEditingProduct(product);
-    // Convert image URLs to absolute URLs for display
-    const imagesWithAbsoluteUrls = (product.images || []).map(img => ({
-      ...img,
-      url: getImageUrl(img.url)
-    }));
-    setImages(imagesWithAbsoluteUrls);
-    setImageFiles([]); // Reset new images when starting to edit
+    setImages(product.images || []);
+    setNewImageUrl('');
+    setNewImageAlt('');
+  };
+
+  const addImage = () => {
+    if (!newImageUrl.trim()) {
+      setError('Please enter an image URL');
+      return;
+    }
+    const newImage = {
+      url: newImageUrl,
+      alt: newImageAlt || 'Product Image',
+    };
+    setImages([...images, newImage]);
+    setNewImageUrl('');
+    setNewImageAlt('');
+    setError('');
   };
 
   const removeImage = (index) => {
-    const updated = images.filter((_, i) => i !== index);
-    setImages(updated);
+    setImages(images.filter((_, i) => i !== index));
   };
 
   const saveChanges = async () => {
     try {
-      // Check if there's at least one new image to upload
-      if (imageFiles.length === 0) {
-        setError('Please upload at least one image');
+      if (images.length === 0) {
+        setError('Product must have at least one image');
         return;
       }
 
-      const formData = new FormData();
-      formData.append('name', editingProduct.name);
-      formData.append('description', editingProduct.description || '');
-      formData.append('price', parseFloat(editingProduct.price));
-      formData.append('discountedPrice', editingProduct.discountedPrice ? parseFloat(editingProduct.discountedPrice) : parseFloat(editingProduct.price));
-      formData.append('category', editingProduct.category);
-      formData.append('stock', parseInt(editingProduct.stock) || 0);
+      const updatedData = {
+        ...editingProduct,
+        images,
+      };
 
-      // Add new image files
-      imageFiles.forEach((img) => {
-        formData.append('images', img.file);
-      });
-
-      await productService.updateProduct(editingProduct._id, formData);
+      await productService.updateProduct(editingProduct._id, updatedData);
       setSuccess('Product updated successfully!');
       setEditingProduct(null);
-      setImages([]);
-      setImageFiles([]);
       fetchProducts();
       setTimeout(() => setSuccess(''), 3000);
     } catch (err) {
       setError('Failed to update product');
-      console.error(err);
     }
   };
 
   const cancelEditing = () => {
     setEditingProduct(null);
     setImages([]);
-    setImageFiles([]);
+    setNewImageUrl('');
+    setNewImageAlt('');
   };
 
   const deleteProduct = async (productId) => {
@@ -623,9 +604,25 @@ const AdminPanel = () => {
           </div>
 
           <div className="images-editor">
-            <h3>Product Images ({imageFiles.length})</h3>
+            <h3>Product Images ({images.length})</h3>
 
             <div className="images-grid">
+              {images.map((img, idx) => (
+                <div key={idx} className="image-card">
+                  <img src={img.url} alt={img.alt} />
+                  <div className="image-info">
+                    <p className="image-alt">{img.alt}</p>
+                    <button
+                      className="btn-remove"
+                      onClick={() => removeImage(idx)}
+                      title="Remove image"
+                    >
+                      <FiTrash2 size={16} />
+                    </button>
+                  </div>
+                </div>
+              ))}
+              
               {imageFiles.length > 0 && imageFiles.map((img, idx) => (
                 <div key={`new-${idx}`} className="image-card">
                   <img src={img.preview} alt="preview" />
@@ -707,7 +704,7 @@ const AdminPanel = () => {
                           {product.images?.map((img, idx) => (
                             <img
                               key={idx}
-                              src={getImageUrl(img.url)}
+                              src={img.url}
                               alt={img.alt}
                               className="thumb"
                               title={img.alt}

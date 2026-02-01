@@ -1,14 +1,12 @@
 .navbar {
-  background: rgba(255, 255, 255, 0.7); /* semi-transparent */
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px); /* Safari support */
-  border: 1px solid #000000;
-  border-radius: 50px;
+  background-color: #ffffff;
+  border: 2px solid #000000;
+  border-radius: 12px;
   position: sticky;
   top: 10px;
   z-index: 100;
   margin: 0 auto;
-  max-width: 60%;
+  max-width: 95%;
   left: 2.5%;
   right: 2.5%;
 }

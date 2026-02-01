@@ -15,6 +15,7 @@ import ProfilePage from './pages/ProfilePage';
 import OrderHistoryPage from './pages/OrderHistoryPage';
 import AdminPanel from './pages/AdminPanel';
 import NotFoundPage from './pages/NotFoundPage';
+import Iridescence from './pages/Iridescence';
 import './styles/global.css';
 
 function App() {
@@ -23,23 +24,26 @@ function App() {
       <CartProvider>
         <Router>
           <div className="app">
-            <Navbar />
-            <main>
-              <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/products" element={<ProductListPage />} />
-                <Route path="/products/:id" element={<ProductDetailPage />} />
-                <Route path="/cart" element={<CartPage />} />
-                <Route path="/checkout" element={<CheckoutPage />} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/register" element={<RegisterPage />} />
-                <Route path="/profile" element={<ProfilePage />} />
-                <Route path="/orders" element={<OrderHistoryPage />} />
-                <Route path="/admin" element={<AdminPanel />} />
-                <Route path="*" element={<NotFoundPage />} />
-              </Routes>
-            </main>
-            <Footer />
+            
+            <div className="content-wrapper">
+              <Navbar />
+              <main>
+                <Routes>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/products" element={<ProductListPage />} />
+                  <Route path="/products/:id" element={<ProductDetailPage />} />
+                  <Route path="/cart" element={<CartPage />} />
+                  <Route path="/checkout" element={<CheckoutPage />} />
+                  <Route path="/login" element={<LoginPage />} />
+                  <Route path="/register" element={<RegisterPage />} />
+                  <Route path="/profile" element={<ProfilePage />} />
+                  <Route path="/orders" element={<OrderHistoryPage />} />
+                  <Route path="/admin" element={<AdminPanel />} />
+                  <Route path="*" element={<NotFoundPage />} />
+                </Routes>
+              </main>
+              <Footer />
+            </div>
           </div>
         </Router>
       </CartProvider>

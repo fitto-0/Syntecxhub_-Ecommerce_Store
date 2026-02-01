@@ -1,7 +1,9 @@
 .admin-dashboard {
   min-height: 80vh;
   padding: 40px 0;
-  background: #ffffff;
+  background: rgba(180, 192, 118, 0.534);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .admin-dashboard h1 {
