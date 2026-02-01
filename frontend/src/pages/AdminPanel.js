@@ -609,7 +609,7 @@ const AdminPanel = () => {
             <div className="images-grid">
               {images.map((img, idx) => (
                 <div key={idx} className="image-card">
-                  <img src={img.url} alt={img.alt} />
+                  <img src={img.url.startsWith('http') ? img.url : `http://localhost:5000${img.url}`} alt={img.alt} />
                   <div className="image-info">
                     <p className="image-alt">{img.alt}</p>
                     <button
@@ -704,7 +704,7 @@ const AdminPanel = () => {
                           {product.images?.map((img, idx) => (
                             <img
                               key={idx}
-                              src={img.url}
+                              src={img.url.startsWith('http') ? img.url : `http://localhost:5000${img.url}`}
                               alt={img.alt}
                               className="thumb"
                               title={img.alt}

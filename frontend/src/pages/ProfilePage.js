@@ -105,9 +105,6 @@ const ProfilePage = () => {
                 <p>
                   <strong>Phone:</strong> {formData.phone || 'Not provided'}
                 </p>
-                <p>
-                  <strong>Role:</strong> {formData.role}
-                </p>
                 <button onClick={() => setIsEditing(true)} className="btn btn-primary">
                   Edit Profile
                 </button>
