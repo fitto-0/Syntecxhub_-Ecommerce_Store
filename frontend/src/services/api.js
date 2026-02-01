@@ -28,6 +28,11 @@ export const authService = {
   login: (email, password) => api.post('/auth/login', { email, password }),
   getCurrentUser: () => api.get('/auth/me'),
   updateProfile: (profileData) => api.put('/auth/profile', profileData),
+  uploadProfileImage: (formData) => api.post('/auth/upload-profile-image', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  }),
 };
 
 // Product Services

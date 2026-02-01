@@ -1,15 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { authService, orderService } from '../services/api';
+import { FiCamera, FiUser } from 'react-icons/fi';
 import './styles/ProfilePage.css';
+import '../components/styles/ProfileImage.css';
 
 const ProfilePage = () => {
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
   const [loading, setLoading] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState(user || {});
   const [message, setMessage] = useState('');
   const [orders, setOrders] = useState([]);
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const fileInputRef = useRef(null);
 
   useEffect(() => {
     fetchUserOrders();
@@ -31,10 +35,48 @@ const ProfilePage = () => {
     });
   };
 
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      setMessage('Please select an image file');
+      return;
+    }
+
+    // Validate file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      setMessage('Image size should be less than 5MB');
+      return;
+    }
+
+    try {
+      setUploadingImage(true);
+      const formData = new FormData();
+      formData.append('profileImage', file);
+
+      const response = await authService.uploadProfileImage(formData);
+      
+      // Update user data with new profile image
+      updateUser({ ...user, profileImage: response.data.profileImage });
+      setFormData({ ...formData, profileImage: response.data.profileImage });
+      
+      setMessage('Profile image updated successfully!');
+      setTimeout(() => setMessage(''), 3000);
+    } catch (error) {
+      setMessage('Failed to upload profile image');
+      console.error('Upload error:', error);
+    } finally {
+      setUploadingImage(false);
+    }
+  };
+
   const handleSave = async () => {
     try {
       setLoading(true);
       await authService.updateProfile(formData);
+      updateUser(formData);
       setIsEditing(false);
       setMessage('Profile updated successfully!');
       setTimeout(() => setMessage(''), 3000);
@@ -55,6 +97,38 @@ const ProfilePage = () => {
         <div className="profile-wrapper">
           <div className="profile-card">
             <h2>Personal Information</h2>
+            
+            {/* Profile Image Section */}
+            <div className="profile-image-section">
+              <div className="profile-image-container">
+                {formData.profileImage ? (
+                  <img 
+                    src={formData.profileImage.startsWith('http') ? formData.profileImage : `http://localhost:5000${formData.profileImage}`} 
+                    alt="Profile" 
+                    className="profile-avatar"
+                  />
+                ) : (
+                  <div className="profile-avatar-placeholder">
+                    <FiUser size={48} />
+                  </div>
+                )}
+                <button 
+                  className="upload-btn"
+                  onClick={() => fileInputRef.current?.click()}
+                  disabled={uploadingImage}
+                  title={uploadingImage ? 'Uploading...' : 'Change Profile Photo'}
+                >
+                  <FiCamera size={18} />
+                </button>
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  style={{ display: 'none' }}
+                />
+              </div>
+            </div>
             {isEditing ? (
               <div className="form">
                 <div className="form-row">

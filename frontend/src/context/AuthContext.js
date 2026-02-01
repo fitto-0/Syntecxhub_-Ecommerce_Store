@@ -37,6 +37,9 @@ const authReducer = (state, action) => {
       };
     case 'SET_USER':
       return { ...state, user: action.payload };
+    case 'UPDATE_USER':
+      localStorage.setItem('user', JSON.stringify(action.payload));
+      return { ...state, user: action.payload };
     default:
       return state;
   }
@@ -61,8 +64,12 @@ export const AuthProvider = ({ children }) => {
     }
   }, []);
 
+  const updateUser = (userData) => {
+    dispatch({ type: 'UPDATE_USER', payload: userData });
+  };
+
   return (
-    <AuthContext.Provider value={{ ...state, dispatch }}>
+    <AuthContext.Provider value={{ ...state, dispatch, updateUser }}>
       {children}
     </AuthContext.Provider>
   );

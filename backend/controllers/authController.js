@@ -42,6 +42,7 @@ exports.register = async (req, res) => {
         lastName: user.lastName,
         email: user.email,
         role: user.role,
+        profileImage: user.profileImage,
       },
     });
   } catch (error) {
@@ -80,6 +81,7 @@ exports.login = async (req, res) => {
         lastName: user.lastName,
         email: user.email,
         role: user.role,
+        profileImage: user.profileImage,
       },
     });
   } catch (error) {
@@ -119,6 +121,30 @@ exports.updateProfile = async (req, res) => {
     res.status(200).json({
       success: true,
       user,
+    });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+// @desc    Upload profile image
+// @route   POST /api/auth/upload-profile-image
+// @access  Private
+exports.uploadProfileImage = async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ success: false, message: 'No file uploaded' });
+    }
+
+    const user = await User.findByIdAndUpdate(
+      req.user.id,
+      { profileImage: `/uploads/${req.file.filename}` },
+      { new: true, runValidators: true }
+    );
+
+    res.status(200).json({
+      success: true,
+      profileImage: user.profileImage,
     });
   } catch (error) {
     res.status(400).json({ success: false, message: error.message });
